@@ -22,7 +22,6 @@ class BooksApp extends React.Component {
   componentDidMount() {
     BooksAPI.getAll().then((bookShelves) => {
       this.setState({ bookShelves })
-      console.log(bookShelves);
     })
   }
 
@@ -73,7 +72,8 @@ class BooksApp extends React.Component {
                           <li key={index}>
                               <Book cover={book.imageLinks.thumbnail}
                                     title={book.title}
-                                    authors={book.authors} />
+                                    authors={book.authors}
+                                    shelf={'none'} />
                           </li>
                       ))}
                     </ol>)}

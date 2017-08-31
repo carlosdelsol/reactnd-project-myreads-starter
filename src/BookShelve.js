@@ -15,7 +15,8 @@ class BookShelve extends Component {
                     <li key={index}>
                         <Book cover={book.imageLinks.thumbnail}
                               title={book.title}
-                              authors={book.authors} />
+                              authors={book.authors}
+                              shelf={book.shelf} />
                     </li>
                 ))}
             </ol>
