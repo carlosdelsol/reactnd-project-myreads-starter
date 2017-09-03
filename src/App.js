@@ -25,7 +25,7 @@ class BooksApp extends React.Component {
     })
   }
 
-  updateQuery = (value) => {
+  searchQuery = (value) => {
     this.setState({searchQuery: value})
     
     if(value.length > 2){
@@ -39,6 +39,19 @@ class BooksApp extends React.Component {
     }else{
       this.setState({ books: [], noResults: false })
     }
+  }
+
+  updateBook = (book, shelf) => {
+    this.setState((state) => ({
+      bookShelves: state.bookShelves.map((b) => {
+        if(b.id === book.id){
+          b.shelf = shelf;
+        }
+        return b
+      })
+    }))
+
+    BooksAPI.update(book, shelf)
   }
 
   render() {
@@ -58,7 +71,7 @@ class BooksApp extends React.Component {
                     However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                     you don't find a specific author or title. Every search is limited by search terms.
                   */}
-                  <input type="text" placeholder="Search by title or author" value={this.state.searchQuery} onChange={(event) => this.updateQuery(event.target.value)} />
+                  <input type="text" placeholder="Search by title or author" value={this.state.searchQuery} onChange={(event) => this.searchQuery(event.target.value)} />
                 </div>
               </div>
               <div className="search-books-results">
@@ -68,12 +81,10 @@ class BooksApp extends React.Component {
               {this.state.noResults ? (
                 <h3 className="bookshelf">No results found.</h3>
               ) : ( <ol className="books-grid">
-                      {this.state.books.map((book, index) => (
-                          <li key={index}>
-                              <Book cover={book.imageLinks.thumbnail}
-                                    title={book.title}
-                                    authors={book.authors}
-                                    shelf={'none'} />
+                      {this.state.books.map(book => (
+                          <li key={book.id}>
+                              <Book book={book}
+                                    onUpdateBook={this.updateBook} />
                           </li>
                       ))}
                     </ol>)}
@@ -84,9 +95,9 @@ class BooksApp extends React.Component {
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
-                <BookShelve shelf="wantToRead" bookShelves={this.state.bookShelves} />
-                <BookShelve shelf="currentlyReading" bookShelves={this.state.bookShelves} />
-                <BookShelve shelf="read" bookShelves={this.state.bookShelves} />
+                <BookShelve shelf="currentlyReading" bookShelves={this.state.bookShelves} onUpdateBook={this.updateBook} />
+                <BookShelve shelf="wantToRead" bookShelves={this.state.bookShelves} onUpdateBook={this.updateBook} />
+                <BookShelve shelf="read" bookShelves={this.state.bookShelves} onUpdateBook={this.updateBook} />
             </div>
             <div className="open-search">
               <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
