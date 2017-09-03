@@ -7,26 +7,31 @@ import './App.css'
 
 class BooksApp extends React.Component {
   state = {
-    bookShelves: []
+    books: []
   }
 
   componentDidMount() {
-    BooksAPI.getAll().then((bookShelves) => {
-      this.setState({ bookShelves })
+    BooksAPI.getAll().then((books) => {
+      this.setState({ books })
     })
   }
 
   updateBook = (book, shelf) => {
-    let newBooks = this.state.bookShelves.filter((b) => b.id !== book.id);
-    book.shelf = shelf;
-    newBooks.push(book);
-    this.setState({bookShelves: newBooks})
+    if (book.shelf !== shelf) {
+      BooksAPI.update(book, shelf).then(() => {
+        book.shelf = shelf
 
-    BooksAPI.update(book, shelf)
+        // Filter out the book and append it to the end of the list
+        // so it appears at the end of whatever shelf it was added to.
+        this.setState(state => ({
+          books: state.books.filter(b => b.id !== book.id).concat([ book ])
+        }))
+      })
+    }
   }
 
   getShelf = (id) => {
-    let book = this.state.bookShelves.filter((b) => b.id === id)[0]
+    let book = this.state.books.filter((b) => b.id === id)[0]
     return book===undefined?'none':book.shelf
   }
 
@@ -34,7 +39,7 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route exact path="/" render={() => (
-          <BookShelve bookShelves={this.state.bookShelves}
+          <BookShelve bookShelves={this.state.books}
                       getShelf={this.getShelf}  
                       onUpdateBook={this.updateBook} />
         )} />
