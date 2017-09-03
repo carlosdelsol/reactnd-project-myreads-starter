@@ -3,9 +3,8 @@ import Book from './Book'
 
 class BookShelve extends Component {
   render() {
-    const { shelf, bookShelves, onUpdateBook } = this.props
-    const books = bookShelves.filter((b) => b.shelf === shelf);
-    const title = shelf === 'wantToRead' ? 'Want to Read' : (shelf === 'currentlyReading') ? 'Currently Reading' : 'Read';
+    const { shelf, books, onUpdateBook } = this.props
+    const title = (shelf === 'wantToRead') ? 'Want to Read' : (shelf === 'currentlyReading') ? 'Currently Reading' : 'Read';
     return (
         <div className="bookshelf">
           <h2 className="bookshelf-title">{ title }</h2>

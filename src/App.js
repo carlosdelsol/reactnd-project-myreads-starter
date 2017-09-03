@@ -4,6 +4,8 @@ import Book from './Book'
 import * as BooksAPI from './utils/BooksAPI'
 import './App.css'
 
+const shelves = ["currentlyReading", "wantToRead", "read"]
+
 class BooksApp extends React.Component {
   state = {
     /**
@@ -95,9 +97,12 @@ class BooksApp extends React.Component {
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
-                <BookShelve shelf="currentlyReading" bookShelves={this.state.bookShelves} onUpdateBook={this.updateBook} />
-                <BookShelve shelf="wantToRead" bookShelves={this.state.bookShelves} onUpdateBook={this.updateBook} />
-                <BookShelve shelf="read" bookShelves={this.state.bookShelves} onUpdateBook={this.updateBook} />
+                {shelves.map((shelf,id) => (
+                  <BookShelve key={id}
+                              shelf={shelf} 
+                              books={this.state.bookShelves.filter((b) => b.shelf === shelf)} 
+                              onUpdateBook={this.updateBook} />
+                ))}
             </div>
             <div className="open-search">
               <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
