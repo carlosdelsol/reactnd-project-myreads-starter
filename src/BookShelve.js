@@ -1,12 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom'
 import BookShelf from './BookShelf'
 
 const shelves = ["currentlyReading", "wantToRead", "read"]
 
-class BookShelve extends Component {
-  render() {
-    const { bookShelves, getShelf, onUpdateBook } = this.props
+function BookShelve(props) {
     return (
         <div className="list-books">
             <div className="list-books-title">
@@ -16,9 +14,9 @@ class BookShelve extends Component {
                 {shelves.map((shelf,id) => (
                   <BookShelf key={id}
                               shelf={shelf} 
-                              books={bookShelves.filter((b) => b.shelf === shelf)} 
-                              getShelf={getShelf}
-                              onUpdateBook={onUpdateBook} />
+                              books={props.bookShelves.filter((b) => b.shelf === shelf)} 
+                              getShelf={props.getShelf}
+                              onUpdateBook={props.onUpdateBook} />
                 ))}
             </div>
             <div className="open-search">
@@ -26,7 +24,6 @@ class BookShelve extends Component {
             </div>
         </div>
     )
-  }
 }
 
 export default BookShelve
