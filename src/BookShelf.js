@@ -2,11 +2,9 @@ import React from 'react';
 import Book from './Book'
 
 function BookShelf(props) {
-    const title = (props.shelf === 'wantToRead') ? 'Want to Read' : (props.shelf === 'currentlyReading') ? 'Currently Reading' : 'Read';
-    
     return (
         <div className="bookshelf">
-          <h2 className="bookshelf-title">{ title }</h2>
+          <h2 className="bookshelf-title">{ props.title }</h2>
           <div className="bookshelf-books">
             <ol className="books-grid">
                 {props.books.map(book => (
