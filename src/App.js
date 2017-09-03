@@ -56,6 +56,11 @@ class BooksApp extends React.Component {
     BooksAPI.update(book, shelf)
   }
 
+  getShelf = (id) => {
+    let book = this.state.bookShelves.filter((b) => b.id === id)[0]
+    return book===undefined?'none':book.shelf
+  }
+
   render() {
     return (
       <div className="app">
@@ -86,6 +91,7 @@ class BooksApp extends React.Component {
                       {this.state.books.map(book => (
                           <li key={book.id}>
                               <Book book={book}
+                                    getShelf={this.getShelf}
                                     onUpdateBook={this.updateBook} />
                           </li>
                       ))}
@@ -101,6 +107,7 @@ class BooksApp extends React.Component {
                   <BookShelve key={id}
                               shelf={shelf} 
                               books={this.state.bookShelves.filter((b) => b.shelf === shelf)} 
+                              getShelf={this.getShelf}
                               onUpdateBook={this.updateBook} />
                 ))}
             </div>

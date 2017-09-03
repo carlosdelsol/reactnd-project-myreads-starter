@@ -3,7 +3,7 @@ import Book from './Book'
 
 class BookShelve extends Component {
   render() {
-    const { shelf, books, onUpdateBook } = this.props
+    const { shelf, books, getShelf, onUpdateBook } = this.props
     const title = (shelf === 'wantToRead') ? 'Want to Read' : (shelf === 'currentlyReading') ? 'Currently Reading' : 'Read';
     return (
         <div className="bookshelf">
@@ -13,6 +13,7 @@ class BookShelve extends Component {
                 {books.map(book => (
                     <li key={book.id}>
                         <Book book={book}
+                              getShelf={getShelf}
                               onUpdateBook={onUpdateBook} />
                     </li>
                 ))}
