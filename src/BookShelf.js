@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Book from './Book'
 
-class BookShelve extends Component {
+class BookShelf extends Component {
   render() {
     const { shelf, books, getShelf, onUpdateBook } = this.props
     const title = (shelf === 'wantToRead') ? 'Want to Read' : (shelf === 'currentlyReading') ? 'Currently Reading' : 'Read';
@@ -24,4 +24,4 @@ class BookShelve extends Component {
   }
 }
 
-export default BookShelve
+export default BookShelf
