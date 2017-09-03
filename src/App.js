@@ -1,11 +1,9 @@
 import React from 'react'
 import { Link, Route } from 'react-router-dom'
-import BookShelf from './BookShelf'
+import BookShelve from './BookShelve'
 import Book from './Book'
 import * as BooksAPI from './utils/BooksAPI'
 import './App.css'
-
-const shelves = ["currentlyReading", "wantToRead", "read"]
 
 class BooksApp extends React.Component {
   state = {
@@ -55,23 +53,9 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route exact path="/" render={() => (
-          <div className="list-books">
-              <div className="list-books-title">
-                <h1>MyReads</h1>
-              </div>
-              <div className="list-books-content">
-                  {shelves.map((shelf,id) => (
-                    <BookShelf key={id}
-                                shelf={shelf} 
-                                books={this.state.bookShelves.filter((b) => b.shelf === shelf)} 
-                                getShelf={this.getShelf}
-                                onUpdateBook={this.updateBook} />
-                  ))}
-              </div>
-              <div className="open-search">
-                <Link to="/search">Add a book</Link>
-              </div>
-          </div>
+          <BookShelve bookShelves={this.state.bookShelves}
+                      getShelf={this.getShelf}  
+                      onUpdateBook={this.updateBook} />
         )} />
         <Route path="/search" render={() => (
           <div>
